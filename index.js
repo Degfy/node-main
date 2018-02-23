@@ -4,23 +4,34 @@ const defaultOpts = {
   consoleError: console.error,
 
   reStartOnError: false,
+  onError: null,
 };
 
 
 module.exports = async function main(fn, opts = {}) {
-  const { exitOnEnd, exitOnError } = Object.assign({}, defaultOpts, opts);
+  const {
+    exitOnEnd,
+    exitOnError,
+    consoleError,
+    reStartOnError,
+    onError,
+  } = Object.assign({}, defaultOpts, opts);
 
   try {
     if (typeof fn === 'function') {
       await fn();
     }
-
+    console.log(exitOnEnd);
     if (exitOnEnd) {
       process.exit();
     }
   } catch (err) {
     if (consoleError) {
       consoleError(err);
+    }
+
+    if (typeof onError === 'function') {
+      onError(err);
     }
 
     if (reStartOnError) {
