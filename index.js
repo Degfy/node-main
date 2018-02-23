@@ -21,7 +21,6 @@ module.exports = async function main(fn, opts = {}) {
     if (typeof fn === 'function') {
       await fn();
     }
-    console.log(exitOnEnd);
     if (exitOnEnd) {
       process.exit();
     }
